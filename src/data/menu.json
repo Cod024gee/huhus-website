@@ -1,0 +1,194 @@
+{
+  "_comment": "TODO: Replace with real Huhus menu — prices, descriptions, photos. This is SAMPLE DATA labelled as placeholder.",
+  "categories": [
+    { "id": "pizzas", "name": "Pizzas", "swahili": "Piza" },
+    { "id": "combos", "name": "Combos & Offers", "swahili": "Ofa" },
+    { "id": "sides", "name": "Sides", "swahili": "Kando" },
+    { "id": "drinks", "name": "Drinks", "swahili": "Vinywaji" },
+    { "id": "desserts", "name": "Sweet End", "swahili": "Tamu" }
+  ],
+  "items": [
+    {
+      "id": "pepperoni-heat",
+      "name": "Pepperoni Heat",
+      "swahili": "Pepperoni Moto",
+      "category": "pizzas",
+      "bestseller": true,
+      "description": "Double pepperoni, chilli honey, mozzarella diavola. Crispy cupped edges.",
+      "ingredients": ["tomato san marzano", "mozzarella", "pepperoni", "chilli honey", "oregano"],
+      "tags": ["spicy", "bestseller"],
+      "image": "/images/placeholder-pepperoni.jpg",
+      "sizes": [
+        { "name": "Regular", "inches": 9, "price": 950 },
+        { "name": "Medium", "inches": 12, "price": 1350 },
+        { "name": "Large", "inches": 14, "price": 1750 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick", "Cheese Burst +200"],
+      "extras": [
+        { "name": "Extra Cheese", "price": 150 },
+        { "name": "Extra Pepperoni", "price": 200 },
+        { "name": "Jalapeños", "price": 80 }
+      ]
+    },
+    {
+      "id": "nyama-choma",
+      "name": "Nyama Choma Deluxe",
+      "category": "pizzas",
+      "bestseller": true,
+      "description": "Slow-grilled beef, red onion, green pepper, dhania, smoky BBQ base. Very Kenyan.",
+      "ingredients": ["bbq sauce", "mozzarella", "nyama choma", "red onion", "green pepper", "coriander"],
+      "tags": ["kenyan", "bestseller"],
+      "image": "/images/placeholder-nyama.jpg",
+      "sizes": [
+        { "name": "Regular", "price": 1100 },
+        { "name": "Medium", "price": 1500 },
+        { "name": "Large", "price": 1900 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick"],
+      "extras": [{ "name": "Extra Nyama", "price": 250 }]
+    },
+    {
+      "id": "margherita-safi",
+      "name": "Margherita Safi",
+      "category": "pizzas",
+      "bestseller": false,
+      "description": "San Marzano, fior di latte, basil oil, flaky salt. Simple, proper.",
+      "ingredients": ["san marzano tomato", "fior di latte", "basil", "olive oil"],
+      "tags": ["vegetarian"],
+      "image": "/images/placeholder-margherita.jpg",
+      "sizes": [
+        { "name": "Regular", "price": 850 },
+        { "name": "Medium", "price": 1200 },
+        { "name": "Large", "price": 1550 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick", "Gluten Free +250"],
+      "extras": [{ "name": "Burrata", "price": 300 }]
+    },
+    {
+      "id": "peri-peri-chicken",
+      "name": "Peri-Peri Kuku",
+      "category": "pizzas",
+      "bestseller": true,
+      "description": "Flame-grilled chicken, peri-peri drizzle, sweetcorn, spring onion.",
+      "ingredients": ["peri-peri sauce", "mozzarella", "chicken", "sweetcorn", "spring onion"],
+      "tags": ["spicy"],
+      "image": "/images/placeholder-peri.jpg",
+      "sizes": [
+        { "name": "Regular", "price": 1050 },
+        { "name": "Medium", "price": 1450 },
+        { "name": "Large", "price": 1850 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick"],
+      "extras": [{ "name": "Extra Peri Sauce", "price": 80 }]
+    },
+    {
+      "id": "veggie-madness",
+      "name": "Shamba Veggie",
+      "category": "pizzas",
+      "bestseller": false,
+      "description": "Mushroom, bell pepper, olives, red onion, sweetcorn, pesto swirl.",
+      "ingredients": ["tomato", "mozzarella", "mushroom", "bell pepper", "olives", "pesto"],
+      "tags": ["vegetarian"],
+      "image": "/images/placeholder-veggie.jpg",
+      "sizes": [
+        { "name": "Regular", "price": 950 },
+        { "name": "Medium", "price": 1300 },
+        { "name": "Large", "price": 1650 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick"],
+      "extras": []
+    },
+    {
+      "id": "bbq-feast",
+      "name": "BBQ Feast",
+      "category": "pizzas",
+      "bestseller": false,
+      "description": "Beef pepperoni, chicken, beef mince, BBQ glaze, red onion.",
+      "ingredients": ["bbq sauce", "mozzarella", "pepperoni", "chicken", "mince"],
+      "tags": ["meaty"],
+      "image": "/images/placeholder-bbq.jpg",
+      "sizes": [
+        { "name": "Regular", "price": 1200 },
+        { "name": "Medium", "price": 1650 },
+        { "name": "Large", "price": 2050 }
+      ],
+      "crusts": ["Thin Crust", "Pan Thick"],
+      "extras": []
+    },
+    {
+      "id": "combo-2-1",
+      "name": "Msee Wa Combo — 2 Large + Soda",
+      "category": "combos",
+      "bestseller": true,
+      "description": "Any 2 Large pizzas + 1.25L soda. For the table that came hungry.",
+      "ingredients": ["any 2 large pizzas", "1.25L soda"],
+      "tags": ["combo"],
+      "image": "/images/placeholder-combo.jpg",
+      "sizes": [{ "name": "Combo", "price": 3200 }],
+      "crusts": [],
+      "extras": []
+    },
+    {
+      "id": "wings-8",
+      "name": "Wings Moto — 8pc",
+      "category": "sides",
+      "bestseller": false,
+      "description": "Crispy wings tossed in peri-peri or BBQ, with ranch dip.",
+      "ingredients": ["chicken wings", "peri-peri"],
+      "tags": ["spicy"],
+      "image": "/images/placeholder-wings.jpg",
+      "sizes": [{ "name": "8 pieces", "price": 850 }],
+      "crusts": [],
+      "extras": []
+    },
+    {
+      "id": "garlic-bread",
+      "name": "Garlic Bread Stix",
+      "category": "sides",
+      "bestseller": false,
+      "description": "Soft dough sticks, garlic butter, parsley, cheese dip.",
+      "ingredients": ["dough", "garlic butter"],
+      "tags": ["vegetarian"],
+      "image": "/images/placeholder-garlic.jpg",
+      "sizes": [{ "name": "6 sticks", "price": 450 }],
+      "crusts": [],
+      "extras": []
+    },
+    {
+      "id": "soda-500",
+      "name": "Soda 500ml",
+      "category": "drinks",
+      "bestseller": false,
+      "description": "Coke, Fanta, Sprite — cold.",
+      "ingredients": [],
+      "tags": [],
+      "image": "/images/placeholder-soda.jpg",
+      "sizes": [{ "name": "500ml", "price": 150 }],
+      "crusts": [],
+      "extras": []
+    },
+    {
+      "id": "choc-lava",
+      "name": "Chocolate Lava Cake",
+      "category": "desserts",
+      "bestseller": false,
+      "description": "Warm cake, molten centre, vanilla crumb.",
+      "ingredients": ["chocolate", "flour", "vanilla"],
+      "tags": [],
+      "image": "/images/placeholder-lava.jpg",
+      "sizes": [{ "name": "1 cake", "price": 550 }],
+      "crusts": [],
+      "extras": []
+    }
+  ],
+  "zones": [
+    { "id": "zone-a", "name": "CBD & Westlands", "fee": 150, "eta": "25-35 min" },
+    { "id": "zone-b", "name": "Kilimani, Lavington, Parklands", "fee": 200, "eta": "30-40 min" },
+    { "id": "zone-c", "name": "Eastlands & Outer", "fee": 300, "eta": "40-55 min" }
+  ],
+  "hours": {
+    "open": "10:00",
+    "close": "22:00",
+    "days": "Mon - Sun"
+  }
+}

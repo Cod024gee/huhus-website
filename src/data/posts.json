@@ -1,0 +1,32 @@
+{
+  "_comment": "FEED — Huhus posts about foods, specials, events. Replace with real posts via /admin",
+  "posts": [
+    {
+      "id": "1",
+      "title": "New: Nyama Choma Deluxe is here",
+      "body": "We took Sunday mbuzi and put it on dough. Slow-grilled, smoky, a little dhania. Scoop it before it's gone.",
+      "image": "/images/placeholder-nyama.jpg",
+      "type": "image",
+      "date": "2026-10-05",
+      "orderLink": "nyama-choma"
+    },
+    {
+      "id": "2",
+      "title": "Behind the oven — 400°C",
+      "body": "Our oven doesn't play. 90 seconds, leopard spots, that chew. Come watch it blister.",
+      "image": "/images/placeholder-oven.jpg",
+      "type": "video",
+      "date": "2026-10-02",
+      "orderLink": null
+    },
+    {
+      "id": "3",
+      "title": "Combo ya Ma-Squad",
+      "body": "2 Large + Soda 1.25L for 3,200. Split it, or don't. We won't judge.",
+      "image": "/images/placeholder-combo.jpg",
+      "type": "image",
+      "date": "2026-09-28",
+      "orderLink": "combo-2-1"
+    }
+  ]
+}
