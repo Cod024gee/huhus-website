@@ -2,7 +2,8 @@
 import { MenuItem } from "@/lib/types";
 import { formatKSh } from "@/lib/utils";
 import { useCart } from "@/lib/cart";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { track } from "@/lib/analytics";
 
 export default function ProductCard({ item, onOpen }: { item: MenuItem; onOpen: ()=>void }) {
   const { add, flyToCart } = useCart();
@@ -27,7 +28,12 @@ export default function ProductCard({ item, onOpen }: { item: MenuItem; onOpen: 
       lineTotal: cheapest.price
     });
     flyToCart(rect);
+    track("add_to_cart", { item_id: item.id, item_name: item.name, price: cheapest.price, currency: "KES" });
   };
+
+  useEffect(()=>{
+    track("view_item", { item_id: item.id, item_name: item.name });
+  }, [item.id, item.name]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (window.innerWidth < 1024) return;

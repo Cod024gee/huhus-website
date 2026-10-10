@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { saveOrder } from "@/lib/orders";
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 
 type Zone = { id:string; name:string; fee:number; eta:string };
 
@@ -61,18 +62,29 @@ export default function CheckoutClient({ zones, hours }: { zones: Zone[]; hours:
     );
   };
 
+  useEffect(()=>{ if (items.length>0) track("begin_checkout", { value: subtotal, currency:"KES", items: items.length }); }, [items.length]);
+
   const handleMpesaPay = async () => {
     setError(null);
     const normalized = normalizeKEPhone(mpesaPhone);
     if (!normalized) { setError("Enter valid M-Pesa number"); return; }
+    track("payment_started", { method:"mpesa", value: total });
     setLoading(true);
     setMpesaState("prompt");
     setCountdown(45);
+    // First validate totals server-side
     try {
+      const v = await fetch("/api/orders/create", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ items, fulfilment, zoneId, customer:{ name, phone: normalized }, paymentMethod:"mpesa" })
+      });
+      const vj = await v.json();
+      if (!v.ok) throw new Error(vj.error || "Validation failed");
+      // now STK push with server total
       const res = await fetch("/api/mpesa/stkpush", {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ phone: normalized, amount: total, orderId: "preview" })
+        body: JSON.stringify({ phone: normalized, amount: vj.total, orderId: vj.orderNumber })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "STK failed");
@@ -80,8 +92,8 @@ export default function CheckoutClient({ zones, hours }: { zones: Zone[]; hours:
       setTimeout(()=>{
         setMpesaState("success");
         setLoading(false);
-        // auto continue to create order
-        handleCreateOrder("mpesa", data.CheckoutRequestID || "MPESA123");
+        // auto continue to create order with server-verified totals
+        handleCreateOrder("mpesa", data.CheckoutRequestID || "MPESA123", vj);
       }, 3500);
     } catch (e:any) {
       setLoading(false);
@@ -90,10 +102,23 @@ export default function CheckoutClient({ zones, hours }: { zones: Zone[]; hours:
     }
   };
 
-  const handleCreateOrder = (method: "mpesa"|"cash", receipt?: string) => {
+  const handleCreateOrder = async (method: "mpesa"|"cash", receipt?: string, serverTotals?: any) => {
     const normalized = normalizeKEPhone(phone)!;
-    const id = Math.random().toString(36).slice(2,9).toUpperCase();
-    const number = `#HUHU-${Date.now().toString().slice(-6)}`;
+    // validate server-side if not already
+    let sv = serverTotals;
+    if (!sv) {
+      try {
+        const v = await fetch("/api/orders/create", {
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ items, fulfilment, zoneId, customer:{ name, phone: normalized }, paymentMethod: method })
+        });
+        const vj = await v.json();
+        if (!v.ok) throw new Error(vj.error || "Validation failed");
+        sv = vj;
+      } catch(e:any){ setError(e.message); setLoading(false); return; }
+    }
+    const id = sv.orderId || Math.random().toString(36).slice(2,9).toUpperCase();
+    const number = sv.orderNumber || `#HUHU-${Date.now().toString().slice(-6)}`;
     const order = {
       id,
       number,
@@ -106,30 +131,30 @@ export default function CheckoutClient({ zones, hours }: { zones: Zone[]; hours:
         landmark: fulfilment==="delivery"?landmark:undefined,
       },
       items,
-      subtotal,
-      deliveryFee,
-      total,
+      subtotal: sv.subtotal ?? subtotal,
+      deliveryFee: sv.deliveryFee ?? deliveryFee,
+      total: sv.total ?? total,
       paymentMethod: method,
       mpesaReceipt: receipt,
       notes: `${notes}${pickupTime==="later"?` | Pickup slot: ${timeSlot}`:""}${!openNow?" | PRE-ORDER for next opening":""}`,
     };
     saveOrder(order as any);
     clear();
+    track("purchase", { value: order.total, currency:"KES", transaction_id: number, items: order.items.length, payment: method });
     // fire whatsapp + email (mock)
-    const whatsappMsg = `Habari Huhus! Order ${number} — ${name}, ${phone}, ${fulfilment} ${zone?`| ${zone.name}`:""} — Total ${formatKSh(total)} — ${method==="mpesa"?"M-Pesa paid":"Pay on "+fulfilment}`;
+    const whatsappMsg = `Habari Huhus! Order ${number} — ${name}, ${phone}, ${fulfilment} ${zone?`| ${zone.name}`:""} — Total ${formatKSh(order.total)} — ${method==="mpesa"?"M-Pesa paid":"Pay on "+fulfilment}`;
     const waLink = `https://wa.me/254700000000?text=${encodeURIComponent(whatsappMsg)}`;
     // store wa link for confirmation
     localStorage.setItem(`huhus_wa_${id}`, waLink);
     router.push(`/order/${id}`);
   };
 
-  const handleSubmitCash = () => {
+  const handleSubmitCash = async () => {
     if (!canSubmit) return;
+    track("payment_started", { method:"cash", value: total });
     setLoading(true);
-    setTimeout(()=> {
-      setLoading(false);
-      handleCreateOrder("cash");
-    }, 600);
+    await handleCreateOrder("cash");
+    setLoading(false);
   };
 
   if (items.length===0) {

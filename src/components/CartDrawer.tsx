@@ -8,6 +8,8 @@ import { useState } from "react";
 export default function CartDrawer() {
   const { items, isOpen, setIsOpen, updateQty, remove, subtotal } = useCart();
   return (
+    <>
+      <div aria-live="polite" aria-atomic="true" className="sr-only">Cart has {items.length} items, total {formatKSh(subtotal)}</div>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -67,5 +69,6 @@ export default function CartDrawer() {
         </>
       )}
     </AnimatePresence>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { formatKSh } from "@/lib/utils";
 import { useCart } from "@/lib/cart";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { track } from "@/lib/analytics";
 
 export default function ProductModal({ item, open, onClose }: { item: MenuItem | null; open: boolean; onClose: ()=>void }) {
   const { add, flyToCart } = useCart();
@@ -40,6 +41,7 @@ export default function ProductModal({ item, open, onClose }: { item: MenuItem |
       const el = document.getElementById("cart-icon");
       if (el) flyToCart(el.getBoundingClientRect());
     }
+    track("add_to_cart", { item_id: item.id, item_name: item.name, price: lineTotal, currency:"KES", qty });
     onClose();
   };
 

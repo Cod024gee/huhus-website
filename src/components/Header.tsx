@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart";
 import { isOpenNow } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { track } from "@/lib/analytics";
 
 export default function Header() {
   const { count, setIsOpen } = useCart();
@@ -55,7 +56,7 @@ export default function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <a href="tel:+254700000000" className="hidden lg:inline-flex items-center gap-2 text-[13px] font-bold tracking-wide border border-[var(--line)] px-3 py-2 rounded-full hover:border-[var(--ink)] transition-colors">
+          <a href="tel:+254700000000" onClick={()=>track("call_click",{location:"header"})} className="hidden lg:inline-flex items-center gap-2 text-[13px] font-bold tracking-wide border border-[var(--line)] px-3 py-2 rounded-full hover:border-[var(--ink)] transition-colors">
             <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" /> 0700 000 000
           </a>
           <button id="cart-icon" onClick={()=>setIsOpen(true)} className="relative grid place-items-center w-11 h-11 rounded-full bg-[var(--ink)] text-[var(--paper)] hover:bg-[var(--brand)] transition-colors">

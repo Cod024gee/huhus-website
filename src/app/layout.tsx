@@ -33,6 +33,22 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" style={{"--font-display":"Fraunces, Georgia, serif", "--font-text":"Instrument Sans, system-ui, -apple-system, sans-serif"} as React.CSSProperties}>
+      <head>
+        {/* GA4 — set NEXT_PUBLIC_GA4_ID in .env.local */}
+        <script dangerouslySetInnerHTML={{__html: `
+          if ('${process.env.NEXT_PUBLIC_GA4_ID || ""}') {
+            var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA4_ID || "G-XXXX"}';document.head.appendChild(s);
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA4_ID || "G-XXXX"}');
+          }
+        `}} />
+        {/* Meta Pixel — set NEXT_PUBLIC_META_PIXEL_ID */}
+        <script dangerouslySetInnerHTML={{__html: `
+          if ('${process.env.NEXT_PUBLIC_META_PIXEL_ID || ""}') {
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init','${process.env.NEXT_PUBLIC_META_PIXEL_ID || "000"}');fbq('track','PageView');
+          }
+        `}} />
+      </head>
       <body className="font-text">
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
           "@context":"https://schema.org",

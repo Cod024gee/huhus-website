@@ -6,14 +6,33 @@ import postsData from "@/data/posts.json";
 import { formatKSh } from "@/lib/utils";
 import Link from "next/link";
 import HomeClient from "@/components/HomeClient";
+import { Reveal, Parallax } from "@/components/Reveal";
+import MagneticButton from "@/components/MagneticButton";
 
 export default function Home() {
   const bestsellers = (menuData.items as any[]).filter(i=> i.bestseller).slice(0,3);
   const pizzas = (menuData.items as any[]).filter(i=> i.category==="pizzas").slice(0,3);
   const combos = (menuData.items as any[]).filter(i=> i.category==="combos");
 
+  const menuJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Menu",
+    "name": "Huhu's Pizzas Menu",
+    "hasMenuSection": (menuData as any).categories.map((c:any)=> ({
+      "@type": "MenuSection",
+      "name": c.name,
+      "hasMenuItem": (menuData as any).items.filter((i:any)=> i.category===c.id).map((i:any)=> ({
+        "@type": "MenuItem",
+        "name": i.name,
+        "description": i.description,
+        "offers": { "@type": "Offer", "price": Math.min(...i.sizes.map((s:any)=>s.price)), "priceCurrency": "KES" }
+      }))
+    }))
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(menuJsonLd)}} />
       <HeroBuild />
 
       {/* Marquee */}
@@ -22,11 +41,13 @@ export default function Home() {
       {/* Bestsellers rail */}
       <section className="py-10 sm:py-14 bg-white border-b border-[var(--line)]">
         <div className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <h2 className="bleed-type text-[32px] sm:text-[48px] lg:text-[56px]">BESTSELLERS <span className="text-[var(--brand)]">—</span> <span className="text-[var(--stone)] text-[16px] sm:text-[20px] tracking-[0.12em] font-bold align-middle">WATU WANAPENDA</span></h2>
-            <Link href="/menu" className="hidden sm:inline-flex h-10 px-5 rounded-full border border-[var(--ink)] font-black text-xs tracking-widest hover:bg-[var(--ink)] hover:text-white transition-colors">VIEW FULL MENU →</Link>
-          </div>
-          <HomeClient bestsellers={bestsellers} />
+          <Reveal>
+            <div className="flex items-end justify-between gap-4 flex-wrap">
+              <h2 className="bleed-type text-[32px] sm:text-[48px] lg:text-[56px]">BESTSELLERS <span className="text-[var(--brand)]">—</span> <span className="text-[var(--stone)] text-[16px] sm:text-[20px] tracking-[0.12em] font-bold align-middle">WATU WANAPENDA</span></h2>
+              <Link href="/menu" className="hidden sm:inline-flex h-10 px-5 rounded-full border border-[var(--ink)] font-black text-xs tracking-widest hover:bg-[var(--ink)] hover:text-white transition-colors">VIEW FULL MENU →</Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}><HomeClient bestsellers={bestsellers} /></Reveal>
           <div className="sm:hidden mt-4">
             <Link href="/menu" className="h-11 w-full grid place-items-center rounded-full bg-[var(--ink)] text-white font-black tracking-widest">VIEW FULL MENU</Link>
           </div>

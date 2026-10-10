@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import MagneticButton from "./MagneticButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,9 +85,9 @@ export default function HeroBuild() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/menu" className="h-[52px] px-7 inline-flex items-center justify-center rounded-full bg-[var(--brand)] text-white font-black tracking-widest text-[13px] hover:bg-[var(--heat)] transition-colors shadow-[0_10px_30px_rgba(227,53,13,0.35)]">
+              <MagneticButton href="/menu" className="h-[52px] px-7 rounded-full bg-[var(--brand)] text-white font-black tracking-widest text-[13px] hover:bg-[var(--heat)] shadow-[0_10px_30px_rgba(227,53,13,0.35)]">
                 ORDER THIS ONE — KSh 1,350
-              </Link>
+              </MagneticButton>
               <a href="#how" className="h-[52px] px-6 inline-flex items-center justify-center rounded-full bg-white border border-[var(--line)] font-bold text-sm hover:border-[var(--ink)] transition-colors">
                 HOW WE MAKE IT ↓
               </a>
